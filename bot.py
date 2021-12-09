@@ -1,5 +1,7 @@
 #!./.venv/bin/python
- 
+
+import argparse
+
 import discord      # base discord module
 import code         # code.interact
 import os           # environment variables
@@ -7,7 +9,14 @@ import inspect      # call stack inspection
 import random       # dumb random number generator
  
 from discord.ext import commands    # Bot class and utils
- 
+
+#argparser pentru token <3
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--token", help="token folosit de bot")
+args = parser.parse_args()
+
+
+
 ################################################################################
 ############################### HELPER FUNCTIONS ###############################
 ################################################################################
@@ -113,6 +122,9 @@ async def play(ctx):
         voice_client.play(audio_source, after=None)
 if __name__ == '__main__':
     # check that token exists in environment
+
+    if args.token:
+        os.environ['BOT_TOKEN'] = args.token
     if 'BOT_TOKEN' not in os.environ:
         log_msg('save your token in the BOT_TOKEN env variable!', 'error')
         exit(-1)
